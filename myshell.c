@@ -3,44 +3,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
+#include "utility.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 // #define clear() printf("\033[H\033[J")
+// defining contants 
+#define LINES_SIZE 1024
+#define MAX_lines 10
 
-//Read the command
-void readcmd ( char cmd[], char *parameters[] ){
-	char line [0];
-	int count = 0, i = 0, j = 0;
-	char *array[100], *pch;
-
-	//read line
-	for ( ;; ){
-		//printf("first for loop");
-		int c = fgetc ( stdin );
-		line[count++] = (char) c;
-		if ( c == '\n' ) 
-			break;
-	}
-
-	if ( count == 1) 
-		//break;
-		//return;
-
-	pch = strtok ( line, " \n");
-
-	//Break line into tokens
-	while ( pch != NULL ){
-		array[i++] = strdup ( pch );
-		pch = strtok ( NULL, " \n");
-	}
-
-	strcpy ( cmd, array[0] );
-
-	for ( int j = 0; j < i; j++ ){
-		parameters[j] = array[j];
-	}
-
-	parameters[i] = NULL;
-}
 
 //print the shell
 void screen (){
@@ -56,13 +27,31 @@ void screen (){
 }
 
 int main(){
-	char cmd[100], command[100], *parameters[20];
+	char cmd[100], *parameters[20];
 	char *envp[] = { (char *) "PATH=/bin", 0 };
 
+	char environ[2][LINES_SIZE] = {0};
+	char pwd[LINES_SIZE] = {0};
+	char myshell[LINES_SIZE] = {0};
+	char buffer[LINES_SIZE] = {0};
+	char command[LINES_SIZE] = {0};
+	char lines[MAX_lines][LINES_SIZE] = {0};
+	int lines_count = 0;
+
+	printf("\n-------------------- SHELL STARTED --------------------\n");
+	printf("\n Type 'help' to display the shell commands\n\n");
+	current_Dir(pwd);
+	current_Dir(myshell);
+	strcpy(environ[0], "PWD: ");
+	strcpy(environ[1], "MYSHELL: ");
+	strcat(environ[0], pwd);
+	strcat(environ[1], myshell);
+
+	/*
 	while ( 1 ){
 		screen();
 		
-		readcmd ( command, parameters );
+		//readcmd ( command, parameters );
 
 		if ( fork() != 0 ){
 			wait ( NULL );
@@ -76,7 +65,7 @@ int main(){
 
 		if ( strcmp ( command, "quit" ) == 0 )
 			break;
-	}
+	}*/
 	
 	return 0;
 }
