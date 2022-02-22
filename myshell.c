@@ -7,65 +7,92 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-// #define clear() printf("\033[H\033[J")
-// defining contants 
-#define LINES_SIZE 1024
-#define MAX_lines 10
+int main(int argc, char *argv[]) {
+	int readFile = 0;
+	char line[MAXCHARACTERS] = {0};
+	char command[MAXCHARACTERS] = {0};
+	char word[MAXWORDS][MAXCHARACTERS] = {0};
 
+	FILE *batchFile;
 
-//print the shell
-void screen (){
-	static int screen = 1;
-
-	if (screen == 1){
-		const char* CLEAR_SCREEN_ANSI = " \e[1;1H\e[2J";
-		write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
-		screen = 0;
+	if (argc > 1)
+	{
+		batchFile = fopen(argv[1], "r");
+		if (batchFile == NULL)
+		{
+			printf("Error, can not open file!!\n");
+			exit(0);
+		}
+		readFile = 1;
+	}
+	else
+	{
+		batchFile = stdin;
 	}
 
-	printf("#");
-}
-
-int main(){
-	char cmd[100], *parameters[20];
-	char *envp[] = { (char *) "PATH=/bin", 0 };
-
-	char environ[2][LINES_SIZE] = {0};
-	char pwd[LINES_SIZE] = {0};
-	char myshell[LINES_SIZE] = {0};
-	char buffer[LINES_SIZE] = {0};
-	char command[LINES_SIZE] = {0};
-	char lines[MAX_lines][LINES_SIZE] = {0};
-	int lines_count = 0;
-
-	printf("\n-------------------- SHELL STARTED --------------------\n");
-	printf("\n Type 'help' to display the shell commands\n\n");
-	current_Dir(pwd);
-	current_Dir(myshell);
-	strcpy(environ[0], "PWD: ");
-	strcpy(environ[1], "MYSHELL: ");
-	strcat(environ[0], pwd);
-	strcat(environ[1], myshell);
-
-	/*
-	while ( 1 ){
-		screen();
-		
-		//readcmd ( command, parameters );
-
-		if ( fork() != 0 ){
-			wait ( NULL );
-		}
-
-		else {
-			strcpy ( cmd, "/bin/" );
-			strcat ( cmd, command );
-			execve ( cmd, parameters, envp );
-		}
-
-		if ( strcmp ( command, "quit" ) == 0 )
-			break;
-	}*/
+	printf("\n========C Shell========\n\n");
 	
-	return 0;
+	if (readFile != 1){
+		printDirectory();
+	}
+
+	while (fgets(line, MAXCHARACTERS, batchFile) != NULL)  {  
+		int i = 0; 
+		while (line[i] != '\n')
+		{
+			i++;
+		}
+		line[i] = '\0';
+
+
+		tokenization(line, word); //Get the number of words after tokenizing
+
+		strcpy(command, word[0]); //Extract the command word
+
+		if (strcmp(command, "cd") == 0) {
+			changeDirectory (word[1]);
+			if (readFile == 1){
+				printf("\n");
+			}
+		}
+
+		else if (strcmp(command, "clr") == 0){
+			clearScreen();
+		}
+
+		else if (strcmp(command, "dir") == 0){
+			showDirectory();
+		}
+
+		else if (strcmp(command, "echo") == 0){
+			echoCustom(word);
+		}
+
+		else if (strcmp(command, "help") == 0){
+			help();
+		}
+		
+		else if (strcmp(command, "environ") == 0){
+			environmentStrings();
+		}
+
+		else if (strcmp(command, "pause") == 0){
+			pauseCustom();
+		}
+
+		else if (strcmp(command, "quit") == 0){
+			quit();
+		}
+		
+		//Clear the memory to 0
+		memset(line, 0, sizeof line);
+		memset(command, 0, sizeof command);
+		for (int i = 0; i < MAXWORDS; i++)
+		{
+			memset(word[i], 0, sizeof word[i]);
+		}
+		
+	 	printDirectory();
+	}
+
 }
