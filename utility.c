@@ -5,8 +5,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
-#include "utility.h" 
 #include <termios.h>
+#include "utility.h" 
+
 
 //Break line and store each word as a token
 void tokenization (char* string, char lines[][MAXCHARACTERS]){ 
@@ -60,6 +61,7 @@ void echoCustom(char string[10][1024]) {
 	printf("\n");
 }
 
+//Print out all the commands in the shell
 void help(void) {
 	FILE *file;
 

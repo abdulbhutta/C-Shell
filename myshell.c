@@ -3,9 +3,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
-#include "utility.h"
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "utility.h"
 
 int main(int argc, char *argv[]) {
 	int readFile = 0;
