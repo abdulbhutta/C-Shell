@@ -10,7 +10,8 @@
 
 
 //Break line and store each word as a token
-void tokenization (char* string, char lines[][MAXCHARACTERS]){ 
+int tokenization (char* string, char lines[][MAXCHARACTERS]){ 
+	
 	int count = 0;
 	char* token = strtok(string," ");
 	while (token != NULL){ 
@@ -18,7 +19,7 @@ void tokenization (char* string, char lines[][MAXCHARACTERS]){
 		count++; 
 		token = strtok(NULL, " "); 
 	}
-	//return count;
+	return count;
 }
 
 //Print current working directory
@@ -54,8 +55,8 @@ void environmentStrings(void) {
 }	
 
 //Print out what the user inputted
-void echoCustom(char string[10][1024]) {
-	for (int i=1; i<10; i++){
+void echoCustom(char string[10][1024], int numberofWords) {
+	for (int i=0; i<numberofWords; i++){
 		printf("%s ", string[i]);
 	}
 	printf("\n");
@@ -63,13 +64,7 @@ void echoCustom(char string[10][1024]) {
 
 //Print out all the commands in the shell
 void help(void) {
-	FILE *file;
-
-   if ((file = fopen("readme.txt", "r")) == NULL){
-       printf("Error! opening file");
-       exit(1);
-   }
-	system ("more -d -1 readme.txt");
+	system ("more -d -1 readme");
 }
 
 //function got from online!

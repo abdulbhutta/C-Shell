@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) {
 	char line[MAXCHARACTERS] = {0};
 	char command[MAXCHARACTERS] = {0};
 	char word[MAXWORDS][MAXCHARACTERS] = {0};
+	int numberofWords=0;
 
 	FILE *batchFile;
 
@@ -25,8 +26,10 @@ int main(int argc, char *argv[]) {
 		}
 		readFile = 1;
 	}
+
 	else
 	{
+		//use the file as the standard input 
 		batchFile = stdin;
 	}
 
@@ -44,10 +47,20 @@ int main(int argc, char *argv[]) {
 		}
 		line[i] = '\0';
 
-
-		tokenization(line, word); //Get the number of words after tokenizing
+		numberofWords = tokenization(line, word); //Get the number of words after tokenizing
+		//printf("words: %d \n", numberofWords);
+		
+		for (int i=1; i<numberofWords; i++){
+			printf("after: %s \n", word[i]);
+		}
+		printf("\n");
 
 		strcpy(command, word[0]); //Extract the command word
+
+		for (int i=1; i<numberofWords; i++){
+			printf("after: %s \n", word[i]);
+		}
+		printf("\n");
 
 		if (strcmp(command, "cd") == 0) {
 			changeDirectory (word[1]);
@@ -65,7 +78,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		else if (strcmp(command, "echo") == 0){
-			echoCustom(word);
+			echoCustom(word, numberofWords);
 		}
 
 		else if (strcmp(command, "help") == 0){
