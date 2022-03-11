@@ -34,6 +34,7 @@ void pwd(char *workingDirectory) {
     getcwd(workingDirectory, MAXCHARACTERS);
 }
 
+
 //change the directory to this path
 void changeDirectory(char *path) {
     chdir(path);
