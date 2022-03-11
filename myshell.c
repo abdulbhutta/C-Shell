@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
 		//use the file as the standard input 
 		batchFile = stdin;
 	}
+	
 
 	printf("\n========C Shell========\n\n");
 	
