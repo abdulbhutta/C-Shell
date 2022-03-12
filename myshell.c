@@ -36,6 +36,7 @@ int main(int argc, char *argv[]) {
 	else{
 		batchFile = stdin;
 	}
+	
 
 	printf("\n========C Shell========\n\n");
 	
