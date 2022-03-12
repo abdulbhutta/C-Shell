@@ -25,7 +25,7 @@ int tokenization (char* string, char lines[][MAXCHARACTERS]){
 //Print current working directory
 void printDirectory (void){
 	char workingDir[MAXCHARACTERS];
-	pwd(workingDir);	
+	pwd(workingDir); // System call to get current working dir
 	printf("%s# ", workingDir);
 }
 
@@ -36,7 +36,7 @@ void pwd(char *workingDirectory) {
 
 //change the directory to this path
 void changeDirectory(char *path) {
-    chdir(path);
+    chdir(path); //system call for chdir
 }
 
 //Clear the screen
@@ -46,7 +46,7 @@ void clearScreen(void) {
 
 //List the content of the directory
 void showDirectory(void) {
-    system("ls");
+    system("ls"); //System call 
 }
 
 //Print out all the environment variables
@@ -64,10 +64,10 @@ void echoCustom(char string[10][1024], int numberofWords) {
 
 //Print out all the commands in the shell
 void help(void) {
-	system ("more -d -1 readme");
+	system ("more -d -1 readme"); //Display more with spacebare option and display line by line
 }
 
-//function got from online!
+//function got from online to pause the screen from input!
 void pauseCustom(void) {
 	char buffer[] = {0};
 		struct termios term, term_orig;
