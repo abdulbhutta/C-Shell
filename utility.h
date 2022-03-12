@@ -15,6 +15,7 @@ void clearScreen(void);
 void showDirectory(void);
 void environmentStrings(void);
 void echoCustom(char string[10][1024], int numberofLines);
+void echoCustomNew(char string[10][1024], int numberofWords);
 void help(void);
 void pauseCustom(void);
 void quit(void);
